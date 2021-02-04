@@ -1,7 +1,7 @@
-INSERT INTO users (id, name, password)
-VALUES (1, 'Ted Ross', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.'),
-(2, 'Jesse Pomierre', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.'),
-(3, 'Joey Banmont', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u. ');
+INSERT INTO users (id, name, email, password)
+VALUES (0, 'Ted Ross', 'ted@ross.com', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.'),
+(1, 'Jesse Pomierre', 'Jesse@pom.com', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.'),
+(2, 'Joey Banmont', 'Joey@ban.com', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u. ');
 
 
 
@@ -25,8 +25,8 @@ INSERT INTO properties (
 )
 
 VALUES (
-1,
-1,
+0,
+0,
 'Country Bungalo',
 'description',
 'http://thumbnail.com/picture',
@@ -44,8 +44,8 @@ TRUE
 ),
 
 (
-2,
-2,
+1,
+1,
 '2 Story Penthouse Condo',
 'description',
 'http://thumbnail.com/picture',
@@ -63,8 +63,8 @@ TRUE
 ),
 
 (
-3,
-3,
+2,
+2,
 'MEGA MANSION',
 'description',
 'http://thumbnail.com/picture',
@@ -82,12 +82,12 @@ TRUE
 );
 
 INSERT INTO reservations (id, start_date, end_date, property_id, guest_id)
-VALUES (1, '2016-08-12', '2016-08-19', 1, 3),
-(2, '2016-08-12', '2016-08-19', 2, 1),
-(3, '2016-08-12', '2016-08-19', 3, 2);
+VALUES (0, '2016-08-12', '2016-08-19', 0, 2),
+(1, '2016-08-12', '2016-08-19', 1, 0),
+(2, '2016-08-12', '2016-08-19', 2, 1);
 
 INSERT INTO property_reviews (id, guest_id, property_id, reservation_id, rating, message)
-VALUES (1, 3, 1, 1, 5, 'ok!'),
-(2, 1, 2, 2, 8, 'excellent!'),
-(3, 2, 3, 3, 9, 'surreal!');
+VALUES (0, 2, 0, 0, 5, 'ok!'),
+(1, 0, 1, 1, 8, 'excellent!'),
+(2, 1, 2, 2, 9, 'surreal!');
  
