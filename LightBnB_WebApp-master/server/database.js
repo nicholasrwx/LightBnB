@@ -73,7 +73,9 @@ exports.addUser = addUser;
  * @return {Promise<[{}]>} A promise to the reservations.
  */
 const getAllReservations = function (guest_id, limit = 10) {
-  return pool.query (`
+  return pool
+    .query(
+      `
   SELECT properties.*, reservations.*, avg(rating) as average_rating
   FROM reservations
   JOIN properties ON reservations.property_id = properties.id
@@ -82,10 +84,11 @@ const getAllReservations = function (guest_id, limit = 10) {
   AND reservations.end_date < now()::date
   GROUP BY properties.id, reservations.id
   ORDER BY reservations.start_date
-  LIMIT $2;`
-  , [guest_id, limit]
-  ).then(res => res.rows)
-}
+  LIMIT $2;`,
+      [guest_id, limit]
+    )
+    .then((res) => res.rows);
+};
 exports.getAllReservations = getAllReservations;
 
 /// Properties
@@ -119,12 +122,14 @@ const getAllProperties = function (options, limit = 10) {
   if (options.minimum_price_per_night && options.maximum_price_per_night) {
     queryParams.push(options.minimum_price_per_night * 100);
     queryParams.push(options.maximum_price_per_night * 100);
-    queryString += `AND cost_per_night > $${queryParams.length - 1} AND cost_per_night < $${queryParams.length}`;
+    queryString += `AND cost_per_night > $${
+      queryParams.length - 1
+    } AND cost_per_night < $${queryParams.length}`;
   }
 
   queryString += `
   GROUP BY properties.id
-  \n`
+  \n`;
 
   if (options.minimum_rating) {
     queryParams.push(options.minimum_rating);
@@ -137,8 +142,7 @@ const getAllProperties = function (options, limit = 10) {
   LIMIT $${queryParams.length};
   `;
 
-  return pool.query(queryString, queryParams)
-  .then(res => res.rows);
+  return pool.query(queryString, queryParams).then((res) => res.rows);
 };
 
 exports.getAllProperties = getAllProperties;
@@ -150,6 +154,30 @@ exports.getAllProperties = getAllProperties;
  */
 const addProperty = function (property) {
 
+  return pool
+    .query(
+      `
+INSERT INTO properties (title, description, number_of_bedrooms, number_of_bathrooms, parking_spaces, cost_per_night, thumbnail_photo_url, cover_photo_url, street, country, city, province, post_code, owner_id)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *;
+`,
+      [
+        property.title,
+        property.description,
+        property.number_of_bedrooms,
+        property.number_of_bathrooms,
+        property.parking_spaces,
+        property.cost_per_night,
+        property.thumbnail_photo_url,
+        property.cover_photo_url,
+        property.street,
+        property.country,
+        property.city,
+        property.province,
+        property.post_code,
+        property.owner_id,
+      ]
+    )
+    .then((res) => res.rows[0]);
 };
 
 exports.addProperty = addProperty;
